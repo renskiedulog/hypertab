@@ -4,12 +4,12 @@
   "version": "1.0",
   "description": "A Chrome extension built with Vite + React",
   "action": {
-    "default_popup": "extension/index.html"
+    "default_popup": "index.html"
   },
   "chrome_url_overrides": {
-    "newtab": "extension/index.html"
+    "newtab": "index.html"
   },
-  "permissions": ["topSites", "storage"],
+  "permissions": ["topSites", "storage", "scripting"],
   "web_accessible_resources": [
     {
       "resources": ["images/*"],
@@ -19,5 +19,14 @@
   "host_permissions": ["https://www.google.com/*", "https://t1.gstatic.com/*"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
-  }
+  },
+  "background": {
+    "service_worker": "script/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["script/youtube.js"]
+    }
+  ]
 }

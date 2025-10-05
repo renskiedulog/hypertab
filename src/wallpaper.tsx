@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Visualizer from "./components/custom/visualizer";
 
 const googleSites = [
   {
@@ -150,6 +151,7 @@ export default function Wallpaper() {
           </ul>
         </>
       )}
+      <Visualizer />
     </main>
   );
 }
