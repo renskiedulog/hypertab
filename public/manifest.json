@@ -21,12 +21,12 @@
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "background": {
-    "service_worker": "script/background.js"
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
       "matches": ["*://*.youtube.com/*"],
-      "js": ["script/youtube-analyzer.js"]
+      "js": ["youtube-analyzer.js"]
     }
   ]
 }
