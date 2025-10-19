@@ -3,26 +3,40 @@
   "name": "HyperTab",
   "version": "1.0",
   "description": "A Chrome extension built with Vite + React",
+
   "action": {
     "default_popup": "index.html"
   },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": ["topSites", "storage", "scripting"],
+
+  "permissions": [
+    "topSites",
+    "storage",
+    "scripting",
+    "activeTab",
+    "tabCapture"
+  ],
+
   "web_accessible_resources": [
     {
       "resources": ["images/*"],
       "matches": ["<all_urls>"]
     }
   ],
+
   "host_permissions": ["https://www.google.com/*", "https://t1.gstatic.com/*"],
+
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
+
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type:": "module"
   },
+
   "content_scripts": [
     {
       "matches": ["*://*.youtube.com/*"],

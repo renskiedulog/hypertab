@@ -72,9 +72,8 @@ export default function Wallpaper() {
 
   useEffect(() => {
     async function pickBackground() {
-      const { customBackgrounds = [] } = await chrome.storage.local.get(
-        "customBackgrounds"
-      );
+      const { customBackgrounds = [] } =
+        (await chrome?.storage?.local?.get("customBackgrounds")) ?? [];
 
       const defaultBackgrounds = ["images/1.jpg"];
 
@@ -94,7 +93,11 @@ export default function Wallpaper() {
     <main
       className="h-screen w-screen bg-cover bg-center flex flex-col gap-5 items-center justify-center text-white"
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0)), url('${background}')`,
+        backgroundImage: `
+          linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0)),
+          linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0)),
+          url('${background}')
+        `,
       }}
     >
       {/* Time and Date Header */}
