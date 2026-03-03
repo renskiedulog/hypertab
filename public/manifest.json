@@ -16,17 +16,23 @@
     "storage",
     "scripting",
     "activeTab",
-    "tabCapture"
+    "tabCapture",
+    "alarms",
+    "notifications"
   ],
 
   "web_accessible_resources": [
     {
       "resources": ["images/*"],
       "matches": ["<all_urls>"]
+    },
+    {
+      "resources": ["script/inject-audio.js"],
+      "matches": ["*://*.youtube.com/*"]
     }
   ],
 
-  "host_permissions": ["https://www.google.com/*", "https://t1.gstatic.com/*"],
+  "host_permissions": ["<all_urls>"],
 
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
@@ -34,7 +40,7 @@
 
   "background": {
     "service_worker": "background.js",
-    "type:": "module"
+    "type": "module"
   },
 
   "content_scripts": [

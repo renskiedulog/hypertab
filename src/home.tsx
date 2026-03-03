@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStorage } from "./lib/storage-provider";
 import { Navigate, useLocation } from "react-router-dom";
+import Scraper from "./components/feat/scraper/scraped-items";
 
 function InitialRedirect() {
   const { getItem } = useStorage();
@@ -47,6 +48,7 @@ const Home = () => {
     <div>
       <InitialRedirect />
       <ChooseDefaultPage />
+      <Scraper />
     </div>
   );
 };
@@ -57,7 +59,7 @@ function ChooseDefaultPage() {
   const { setItem } = useStorage();
 
   const handleChoice = (
-    choice: "wallpaper" | "normal" | "work" | "entertainment"
+    choice: "wallpaper" | "normal" | "work" | "entertainment",
   ) => {
     setItem("preferredPage", choice);
     alert(`Default page set to ${choice}`);

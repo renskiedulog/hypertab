@@ -1,31 +1,30 @@
 import { Input } from "./components/ui/input";
+import { saveImage } from "./lib/indexedDB";
 
 const Customize = () => {
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const result = reader.result as string; // base64 encoded
-      const { customBackgrounds = [] } = await chrome.storage.local.get(
-        "customBackgrounds"
-      );
+    for (const file of Array.from(files)) {
+      await saveImage(file);
+    }
 
-      customBackgrounds.push(result);
-      await chrome.storage.local.set({ customBackgrounds });
-
-      alert("Background added!");
-    };
-    reader.readAsDataURL(file);
+    alert("Backgrounds added!");
   };
 
   return (
     <div className="p-4">
       <label htmlFor="upload" className="block mb-2 font-medium">
-        Upload Background
+        Upload Backgrounds
       </label>
-      <Input type="file" id="upload" accept="image/*" onChange={handleUpload} />
+      <Input
+        type="file"
+        id="upload"
+        multiple
+        accept="image/*"
+        onChange={handleUpload}
+      />
     </div>
   );
 };

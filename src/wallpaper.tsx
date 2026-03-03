@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Visualizer from "./components/custom/visualizer";
+import { getAllImages } from "./lib/indexedDB";
 
 const googleSites = [
   {
@@ -52,7 +53,7 @@ export default function Wallpaper() {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
-        })
+        }),
       );
 
       setDate(
@@ -61,7 +62,7 @@ export default function Wallpaper() {
           month: "long",
           day: "numeric",
           year: "numeric",
-        })
+        }),
       );
     };
 
@@ -71,22 +72,14 @@ export default function Wallpaper() {
   }, []);
 
   useEffect(() => {
-    async function pickBackground() {
-      const { customBackgrounds = [] } =
-        (await chrome?.storage?.local?.get("customBackgrounds")) ?? [];
-
-      const defaultBackgrounds = ["images/1.jpg"];
-
-      const allBackgrounds = [...defaultBackgrounds, ...customBackgrounds];
-      if (allBackgrounds.length === 0) return;
-
-      const chosen =
-        allBackgrounds[Math.floor(Math.random() * allBackgrounds.length)];
-
+    async function pickRandomBackground() {
+      const images = await getAllImages();
+      if (!images.length) return;
+      const chosen = images[Math.floor(Math.random() * images.length)];
       setBackground(chosen);
     }
 
-    pickBackground();
+    pickRandomBackground();
   }, []);
 
   return (
