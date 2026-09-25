@@ -14,10 +14,10 @@ export default defineConfig({
       input: {
         newtab: path.resolve(__dirname, "index.html"),
         background: path.resolve(__dirname, "script/background.js"),
-        "youtube-analyzer": path.resolve(
-          __dirname,
-          "script/youtube-analyzer.js"
-        ),
+        "youtube-analyzer": path.resolve(__dirname, "script/youtube-analyzer.js"),
+        "facebook-notif": path.resolve(__dirname, "script/facebook-notif.js"),
+        "gmail-notif": path.resolve(__dirname, "script/gmail-notif.js"),
+        "cliq-notif": path.resolve(__dirname, "script/cliq-notif.js"),
       },
       output: {
         entryFileNames: "[name].js",

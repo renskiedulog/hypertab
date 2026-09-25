@@ -25,3 +25,6 @@ dist-ssr
 
 # Extension
 /extension
+# Local background images (keep folder + README, ignore images)
+src/assets/backgrounds/*
+!src/assets/backgrounds/README.md

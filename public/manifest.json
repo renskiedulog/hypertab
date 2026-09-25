@@ -13,11 +13,6 @@
 
   "permissions": [
     "topSites",
-    "storage",
-    "scripting",
-    "activeTab",
-    "tabCapture",
-    "alarms",
     "notifications"
   ],
 
@@ -25,10 +20,6 @@
     {
       "resources": ["images/*"],
       "matches": ["<all_urls>"]
-    },
-    {
-      "resources": ["script/inject-audio.js"],
-      "matches": ["*://*.youtube.com/*"]
     }
   ],
 
@@ -47,6 +38,18 @@
     {
       "matches": ["*://*.youtube.com/*"],
       "js": ["youtube-analyzer.js"]
+    },
+    {
+      "matches": ["*://*.facebook.com/*"],
+      "js": ["facebook-notif.js"]
+    },
+    {
+      "matches": ["*://mail.google.com/*"],
+      "js": ["gmail-notif.js"]
+    },
+    {
+      "matches": ["*://cliq.zoho.com/*", "*://cliq.zoho.eu/*", "*://cliq.zoho.in/*"],
+      "js": ["cliq-notif.js"]
     }
   ]
 }

@@ -9,6 +9,7 @@ export default function Visualizer() {
     if (!chrome?.runtime?.sendMessage) return;
 
     chrome.runtime.sendMessage({ type: "REQUEST_INFO" }, (res: any) => {
+      if (chrome.runtime.lastError) return;
       if (res) setVideoInfo(res);
       else setVideoInfo(null);
     });

@@ -36,14 +36,14 @@ setInterval(() => {
 
   if (!info) {
     if (lastSent !== "cleared") {
-      chrome.runtime.sendMessage({ type: "YOUTUBE_INFO", data: null });
+      chrome.runtime.sendMessage({ type: "YOUTUBE_INFO", data: null }).catch(() => {});
       lastSent = "cleared";
     }
     return;
   }
 
   if (JSON.stringify(info) !== JSON.stringify(lastSent)) {
-    chrome.runtime.sendMessage({ type: "YOUTUBE_INFO", data: info });
+    chrome.runtime.sendMessage({ type: "YOUTUBE_INFO", data: info }).catch(() => {});
     lastSent = info;
   }
 }, 1000);

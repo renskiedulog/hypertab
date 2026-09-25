@@ -4,28 +4,20 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Work from "./work";
-import Home from "./home";
 import { StorageProvider } from "./lib/storage-provider";
 import Wallpaper from "./wallpaper";
-import Entertainment from "./entertainment";
+import Board from "./board";
 import NavigationTabs from "./components/custom/navigation";
 import { ThemeWatcher } from "./lib/theme-watcher";
-import Customize from "./customize";
 
 function App() {
   return (
     <StorageProvider>
       <Router>
         <Routes>
-          {/* Actual pages */}
-          <Route path="/" element={<Home />} />
-          <Route path="/work" element={<Work />} />
           <Route path="/wallpaper" element={<Wallpaper />} />
-          <Route path="/entertainment" element={<Entertainment />} />
-          <Route path="/customize" element={<Customize />} />
-
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/board" element={<Board />} />
+          <Route path="*" element={<Navigate to="/wallpaper" replace />} />
         </Routes>
 
         <NavigationTabs />
