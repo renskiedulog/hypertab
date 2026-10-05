@@ -28,3 +28,7 @@ dist-ssr
 # Local background images (keep folder + README, ignore images)
 src/assets/backgrounds/*
 !src/assets/backgrounds/README.md
+
+# AI / tooling
+.claude/
+.playwright-mcp/

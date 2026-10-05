@@ -13,8 +13,13 @@
 
   "permissions": [
     "topSites",
-    "notifications"
+    "notifications",
+    "declarativeNetRequestWithHostAccess"
   ],
+
+  "declarative_net_request": {
+    "rule_resources": [{ "id": "referer", "enabled": true, "path": "referer-rules.json" }]
+  },
 
   "web_accessible_resources": [
     {

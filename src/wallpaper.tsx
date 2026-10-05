@@ -3,6 +3,7 @@ import { Check, Pencil, X } from "lucide-react";
 import Visualizer from "./components/custom/visualizer";
 import { currentBackground } from "./lib/backgrounds";
 import { useStorage } from "./lib/storage-provider";
+import { noteLook, NOTES_PATH, sortNotes, useCached, WATCHLIST_PATH, type Note, type WatchItem } from "./lib/api-bank";
 
 interface WeatherData {
   location: { name: string; country: string };
@@ -10,14 +11,6 @@ interface WeatherData {
     temp_c: number;
     condition: { text: string; icon: string };
   };
-}
-
-interface Note {
-  id: string;
-  content: string;
-  color: string;
-  rotation: number;
-  createdAt: number;
 }
 
 const googleSites = [
@@ -55,7 +48,8 @@ export default function Wallpaper() {
   const [date, setDate] = useState<string>("");
   const background = currentBackground;
   const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [notes, setNotes] = useState<Note[]>([]);
+  const notes = useCached<{ items: Note[] }>(NOTES_PATH).data?.items ?? [];
+  const watchlist = useCached<WatchItem[]>(WATCHLIST_PATH).data ?? [];
   const [isEditing, setIsEditing] = useState(false);
   const [cityInput, setCityInput] = useState("");
   const [fetchTrigger, setFetchTrigger] = useState(0);
@@ -96,10 +90,6 @@ export default function Wallpaper() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    const saved = getItem<Note[]>("board-notes");
-    if (saved) setNotes(saved);
-  }, []);
 
   useEffect(() => {
     const apiKey = getItem<string>("weatherApiKey");
@@ -153,10 +143,9 @@ export default function Wallpaper() {
     setIsEditing(false);
   };
 
-  const previewNotes = notes
-    .filter((n) => n.content.trim())
-    .sort((a, b) => a.createdAt - b.createdAt)
-    .slice(0, 3);
+  // Pinned notes first (sortNotes), otherwise the oldest; max 8.
+  const previewNotes = sortNotes(notes).slice(0, 8);
+  const releases = watchlist.filter((w) => w.unseen > 0);
 
   return (
     <main
@@ -170,25 +159,53 @@ export default function Wallpaper() {
       }}
     >
       {/* Notes preview (top-left, across from weather) */}
-      {previewNotes.length > 0 && (
-        <div className="absolute top-5 left-5 flex gap-2">
-          {previewNotes.map((note) => (
-            <div
-              key={note.id}
-              className="w-28 h-28 p-2 text-gray-800 text-xs leading-snug overflow-hidden font-medium"
-              style={{
-                backgroundColor: note.color,
-                transform: `rotate(${note.rotation}deg)`,
-                borderRadius: "2px",
-                boxShadow:
-                  "3px 6px 18px rgba(0,0,0,0.45), 1px 2px 4px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.6)",
-              }}
-            >
-              <p className="line-clamp-5 whitespace-pre-wrap break-words">
-                {note.content}
-              </p>
-            </div>
-          ))}
+      <div className="absolute top-5 left-5 flex flex-col gap-5">
+        {previewNotes.length > 0 && (
+          <div className="flex gap-2">
+            {previewNotes.map((note) => {
+              const { color, rotation } = noteLook(note.id);
+              return (
+                <div
+                  key={note.id}
+                  className="w-28 h-28 p-2 text-gray-800 text-xs leading-snug overflow-hidden font-medium"
+                  style={{
+                    backgroundColor: color,
+                    transform: `rotate(${rotation}deg)`,
+                    borderRadius: "2px",
+                    boxShadow:
+                      "3px 6px 18px rgba(0,0,0,0.45), 1px 2px 4px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.6)",
+                  }}
+                >
+                  <p className="font-bold truncate">{note.title}</p>
+                  <p className="line-clamp-4 whitespace-pre-wrap break-words">{note.body}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Updates panel (right edge): followed titles with unseen episodes/chapters */}
+      {releases.length > 0 && (
+        <div className="absolute right-5 top-1/2 -translate-y-1/2">
+          <ul className="w-72 max-h-[60vh] overflow-y-auto bg-black/30 backdrop-blur-sm rounded-xl p-2 flex flex-col gap-1">
+            {releases.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={item.latestUrl ?? item.sourceUrl ?? undefined}
+                  className="flex items-center gap-2 rounded-lg p-1.5 hover:bg-white/15 transition"
+                >
+                  {item.cover && <img src={item.cover} alt="" className="w-7 h-10 rounded object-cover" />}
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold truncate">{item.title}</p>
+                    <p className="text-xs opacity-70">
+                      {item.type === "anime" ? "Ep" : "Ch"} {item.latest} · {item.unseen} new
+                    </p>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 

@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [{ "header": "referer", "operation": "set", "value": "https://www.mangakakalot.gg/" }]
+    },
+    "condition": { "requestDomains": ["2xstorage.com"], "resourceTypes": ["image"] }
+  }
+]

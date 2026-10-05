@@ -4,7 +4,7 @@ import * as React from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTheme } from "next-themes";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Image, Layout } from "lucide-react";
+import { Image, Layout, Tv } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -15,11 +15,13 @@ import {
 const routes = [
   { path: "/wallpaper", value: "wallpaper", label: "Wallpaper", icon: Image },
   { path: "/board", value: "board", label: "Board", icon: Layout },
+  { path: "/updates", value: "updates", label: "Updates", icon: Tv },
 ];
 
 const themeMap: Record<string, string> = {
   "/wallpaper": "light",
   "/board": "light",
+  "/updates": "light",
 };
 
 export default function NavigationTabs() {
