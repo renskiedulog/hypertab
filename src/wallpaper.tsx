@@ -3,6 +3,7 @@ import { Check, Pencil, X } from "lucide-react";
 import Visualizer from "./components/custom/visualizer";
 import { currentBackground } from "./lib/backgrounds";
 import { useStorage } from "./lib/storage-provider";
+import { quoteOfTheDay } from "./lib/quotes";
 import { noteLook, NOTES_PATH, sortNotes, useCached, WATCHLIST_PATH, type Note, type WatchItem } from "./lib/api-bank";
 
 interface WeatherData {
@@ -146,6 +147,7 @@ export default function Wallpaper() {
   // Pinned notes first (sortNotes), otherwise the oldest; max 8.
   const previewNotes = sortNotes(notes).slice(0, 8);
   const releases = watchlist.filter((w) => w.unseen > 0);
+  const quote = quoteOfTheDay();
 
   return (
     <main
@@ -184,6 +186,12 @@ export default function Wallpaper() {
           </div>
         )}
       </div>
+
+      {/* Daily quote (bottom-left) */}
+      <figure className="absolute bottom-5 left-5 max-w-sm bg-black/30 backdrop-blur-sm rounded-xl px-4 py-3">
+        <blockquote className="text-sm italic leading-snug line-clamp-4">“{quote.text}”</blockquote>
+        <figcaption className="mt-1 text-xs opacity-70">— {quote.author}</figcaption>
+      </figure>
 
       {/* Updates panel (right edge): followed titles with unseen episodes/chapters */}
       {releases.length > 0 && (
