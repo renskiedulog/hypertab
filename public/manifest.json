@@ -14,16 +14,23 @@
   "permissions": [
     "topSites",
     "notifications",
+    "storage",
+    "alarms",
+    "webNavigation",
+    "favicon",
     "declarativeNetRequestWithHostAccess"
   ],
 
   "declarative_net_request": {
-    "rule_resources": [{ "id": "referer", "enabled": true, "path": "referer-rules.json" }]
+    "rule_resources": [
+      { "id": "referer", "enabled": true, "path": "referer-rules.json" },
+      { "id": "ads", "enabled": false, "path": "ads-rules.json" }
+    ]
   },
 
   "web_accessible_resources": [
     {
-      "resources": ["images/*"],
+      "resources": ["images/*", "index.html"],
       "matches": ["<all_urls>"]
     }
   ],

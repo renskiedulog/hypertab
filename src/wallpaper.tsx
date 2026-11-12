@@ -277,54 +277,27 @@ export default function Wallpaper() {
         <p className="text-xl mt-2">{date}</p>
       </div>
 
-      {/* Sites */}
-      <ul className="grid grid-cols-5 gap-2 max-w-3xl mx-auto mt-5">
-        {sites.map((site: any, index) => (
+      {/* Sites + Google shortcuts in one compact grid */}
+      <ul className="grid grid-cols-5 gap-1 max-w-2xl mx-auto mt-2">
+        {[
+          ...sites.map((site: any) => ({
+            url: site.url,
+            title: site.title || site.url,
+            icon: `https://www.google.com/s2/favicons?sz=${faviconSize}&domain=${new URL(site.url).hostname}`,
+          })),
+          ...googleSites,
+        ].map((site, index) => (
           <a
             key={index}
             href={site.url}
             rel="noopener noreferrer"
-            className="flex flex-col justify-center items-center min-w-[120px] gap-1.5 py-4 rounded-md group hover:bg-white/20 transition"
+            className="flex flex-col justify-center items-center min-w-[96px] gap-1 py-2 rounded-md hover:bg-white/20 transition"
           >
-            <img
-              src={`https://www.google.com/s2/favicons?sz=${faviconSize}&domain=${
-                new URL(site.url).hostname
-              }`}
-              alt="favicon"
-              className="w-6 h-6 object-cover"
-            />
-            <span className="text-white truncate max-w-[100px]">
-              {site.title || site.url}
-            </span>
+            <img src={site.icon} alt="favicon" className="w-6 h-6 object-cover" />
+            <span className="text-white text-sm truncate max-w-[88px]">{site.title}</span>
           </a>
         ))}
       </ul>
-
-      {/* Google Shortcuts */}
-      {googleSites.length > 0 && (
-        <>
-          <h2 className="text-2xl font-semibold">Google Shortcuts</h2>
-          <ul className="grid grid-cols-5 gap-2 max-w-3xl mx-auto">
-            {googleSites.map((site, index) => (
-              <a
-                key={index}
-                href={site.url}
-                rel="noopener noreferrer"
-                className="flex flex-col justify-center items-center min-w-[120px] gap-1.5 py-4 rounded-md hover:bg-white/20 transition"
-              >
-                <img
-                  src={site.icon}
-                  alt="favicon"
-                  className="w-8 h-8 object-cover"
-                />
-                <span className="text-white truncate max-w-[100px]">
-                  {site.title}
-                </span>
-              </a>
-            ))}
-          </ul>
-        </>
-      )}
       <Visualizer />
     </main>
   );

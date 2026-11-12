@@ -3,6 +3,45 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* M PLUS Rounded draws "…" as Japanese centred dots; take just that glyph from a Latin system font. */
+@font-face {
+  font-family: "HT Ellipsis";
+  src: local("Segoe UI"), local("Helvetica Neue"), local("Arial");
+  unicode-range: U+2026;
+}
+
+/* Tool pages (Updates, Blocker, Blocked): warm-ink ground, one ember accent. Fonts match the sukima project. */
+@theme {
+  --font-ui: "HT Ellipsis", "M PLUS Rounded 1c", system-ui, "Segoe UI", sans-serif;
+  --font-head: "HT Ellipsis", "Mochiy Pop One", "M PLUS Rounded 1c", system-ui, sans-serif; /* one weight: 400 */
+  --color-ink: oklch(0.17 0.012 35);
+  --color-surface: oklch(0.215 0.014 35);
+  --color-raised: oklch(0.265 0.016 35);
+  --color-line: oklch(0.33 0.016 35);
+  --color-fg: oklch(0.96 0.008 70);
+  --color-dim: oklch(0.78 0.02 55);
+  --color-ember: oklch(0.74 0.15 48);
+  --color-ember-ink: oklch(0.22 0.05 40);
+  --color-go: oklch(0.78 0.12 160);
+}
+
+.page {
+  font-size: 1rem; /* Chrome shrinks extension-page body text to 12px (75%) */
+  font-family: var(--font-ui);
+  font-weight: 500;
+  color: var(--color-fg);
+  font-variant-numeric: tabular-nums;
+  color-scheme: dark;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page *, .page *::before, .page *::after { transition: none !important; animation: none !important; }
+}
+.page ::selection { background: oklch(0.74 0.15 48 / 0.35); }
+.page * { scrollbar-width: thin; scrollbar-color: var(--color-line) transparent; }
+@layer base {
+  .page :focus-visible { outline: 2px solid var(--color-ember); outline-offset: 2px; }
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

@@ -4,7 +4,7 @@ import * as React from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTheme } from "next-themes";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Image, Layout, Tv } from "lucide-react";
+import { Image, Layout, Shield, Tv } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -16,12 +16,14 @@ const routes = [
   { path: "/wallpaper", value: "wallpaper", label: "Wallpaper", icon: Image },
   { path: "/board", value: "board", label: "Board", icon: Layout },
   { path: "/updates", value: "updates", label: "Updates", icon: Tv },
+  { path: "/blocker", value: "blocker", label: "Blocker", icon: Shield },
 ];
 
 const themeMap: Record<string, string> = {
   "/wallpaper": "light",
   "/board": "light",
   "/updates": "light",
+  "/blocker": "light",
 };
 
 export default function NavigationTabs() {
@@ -44,6 +46,8 @@ export default function NavigationTabs() {
     }
   };
 
+  if (location.pathname === "/blocked") return null;
+
   return (
     <Tabs
       value={activeTab}
@@ -60,6 +64,7 @@ export default function NavigationTabs() {
                   <TabsTrigger
                     key={route.value}
                     value={route.value}
+                    aria-label={route.label}
                     className={`flex items-center justify-center py-5 px-2.5 rounded-xl hover:bg-muted transition-colors cursor-pointer ${
                       activeTab === route.value
                         ? "text-black bg-white"

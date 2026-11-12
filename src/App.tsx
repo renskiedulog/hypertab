@@ -8,6 +8,8 @@ import { StorageProvider } from "./lib/storage-provider";
 import Wallpaper from "./wallpaper";
 import Board from "./board";
 import Updates from "./updates";
+import Blocker from "./blocker";
+import Blocked from "./blocked";
 import NavigationTabs from "./components/custom/navigation";
 import { ThemeWatcher } from "./lib/theme-watcher";
 
@@ -19,6 +21,8 @@ function App() {
           <Route path="/wallpaper" element={<Wallpaper />} />
           <Route path="/board" element={<Board />} />
           <Route path="/updates" element={<Updates />} />
+          <Route path="/blocker" element={<Blocker />} />
+          <Route path="/blocked" element={<Blocked />} />
           <Route path="*" element={<Navigate to="/wallpaper" replace />} />
         </Routes>
 
